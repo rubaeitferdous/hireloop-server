@@ -104,8 +104,8 @@ router.post('/', async (req, res) => {
     // Check user subscription plan
     const subscription = await collections.subscriptions().findOne({ userEmail: seekerEmail });
     const planName = subscription?.plan || "Free";
-    const limits = { Free: 3, Pro: 30, Premium: Infinity };
-    const limit = limits[planName] ?? 3;
+    const limits = { Free: 10, Pro: 30, Premium: Infinity };
+    const limit = limits[planName] ?? 10;
 
     if (recentCount >= limit) {
       return res.status(403).json({

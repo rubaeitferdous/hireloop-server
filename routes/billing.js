@@ -4,7 +4,7 @@ import { collections } from '../db.js';
 const router = express.Router();
 
 const SEEKER_LIMITS = {
-  Free: { price: 0, applicationsLimit: 3 },
+  Free: { price: 0, applicationsLimit: 10 },
   Pro: { price: 19, applicationsLimit: 30 },
   Premium: { price: 39, applicationsLimit: Infinity },
 };
