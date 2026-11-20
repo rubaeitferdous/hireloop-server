@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = process.env.TEST_API_URL || process.env.SERVER_URL || `http://localhost:${process.env.PORT || 5000}`;
 
 async function testAll() {
   console.log("Starting backend verification test suite against", BASE_URL);

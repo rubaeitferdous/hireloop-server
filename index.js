@@ -16,8 +16,22 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middlewares
+const rawOrigins = process.env.CLIENT_URL || process.env.FRONTEND_URL || 'http://localhost:3000,http://127.0.0.1:3000';
+const configuredOrigins = rawOrigins.split(',').map((o) => o.trim()).filter(Boolean);
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: (origin, callback) => {
+    // Allow non-browser requests (mobile apps, server-to-server, curl) or matched origins
+    if (!origin) return callback(null, true);
+    if (
+      configuredOrigins.includes(origin) ||
+      configuredOrigins.includes('*') ||
+      process.env.NODE_ENV !== 'production'
+    ) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Origin '${origin}' not allowed by CORS`));
+  },
   credentials: true,
 }));
 app.use(express.json());
